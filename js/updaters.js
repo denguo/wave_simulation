@@ -228,12 +228,37 @@ ClothUpdater.prototype.updatePositions = function ( particleAttributes, alive, d
     var positions  = particleAttributes.position;
     var velocities = particleAttributes.velocity;
 
-    for ( var i  = 0 ; i < alive.length ; ++i ) {
-        if ( !alive[i] ) continue;
-        var p = getElement( i, positions );
-        var v = getElement( i, velocities );
-        p.add( v.clone().multiplyScalar( delta_t ) );
-        setElement( i, positions, p );
+    for (var x = 0; x < 20; x++) {
+        for (var y = 0; y < 20; y++) {
+            var i = 20*x + y;
+
+            if ( !alive[i] ) continue;
+            var p = getElement( i, positions );
+            var v = getElement( i, velocities );
+
+            var amp = 5.0;
+            var radius = 200.0
+
+            var z_pos = new THREE.Vector2(x, y);
+            var particle_pos = new THREE.Vector2(200, 10);
+            var dx = z_pos.sub(particle_pos).length();
+
+            var rect;
+            if (Math.abs(dx)/(2*radius) < 0.5) {
+                rect = 1;
+            }
+            else if (Math.abs(dx)/(2*radius) == 0.5) {
+                rect = 0.5;
+            }
+            else {
+                rect = 0;
+            }
+
+            var D = (amp/2)*(Math.cos((Math.PI*dx)/radius)+1)*rect;
+            p.y += D;
+
+            setElement( i, positions, p );
+        }
     }
 };
 
@@ -253,6 +278,7 @@ ClothUpdater.prototype.updateVelocities = function ( particleAttributes, alive, 
 
             // calculate forces on this node from neighboring springs 
             // (using this.calcHooke()... )
+            v.add(new THREE.Vector3(1, 0, 0));
 
             setElement( idx, velocities, v );
             // ----------- STUDENT CODE END ------------

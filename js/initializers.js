@@ -378,7 +378,8 @@ ClothInitializer.prototype.initializeColors = function ( colors, toSpawn) {
     var base_col = this._opts.color;
     for ( var i = 0 ; i < toSpawn.length ; ++i ) {
         var idx = toSpawn[i];
-        var col = base_col;
+        //var col = base_col;
+        var col = new THREE.Vector4(0, 0, 0, 0);
         setElement( idx, colors, col );
     }
     colors.needUpdate = true;
