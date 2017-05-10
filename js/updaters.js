@@ -8,6 +8,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 var Collisions = Collisions || {};
+var wave_reflect = 0;
 
 
 Collisions.BouncePlane = function ( particleAttributes, alive, delta_t, plane,damping ) {
@@ -227,6 +228,11 @@ ClothUpdater.prototype.calcHooke = function ( p, q ) {
 ClothUpdater.prototype.updatePositions = function ( particleAttributes, alive, delta_t ) {
     var positions  = particleAttributes.position;
     var velocities = particleAttributes.velocity;
+    //console.log("in updatePositions: ", particleAttributes.wave_particles);
+    var wave_particles = particleAttributes.wave_particles;
+    //console.log(wave_particles);
+    //console.log(wave_particles.array);
+    var w = wave_particles.array[0];
 
     for (var x = 0; x < 20; x++) {
         for (var y = 0; y < 20; y++) {
@@ -235,31 +241,56 @@ ClothUpdater.prototype.updatePositions = function ( particleAttributes, alive, d
             if ( !alive[i] ) continue;
             var p = getElement( i, positions );
             var v = getElement( i, velocities );
+            //var w = getElement( 0, wave_particles);
+            
 
-            var amp = 5.0;
-            var radius = 200.0
+            if (y == 10) {
+                var amp = 5.0;
+                var radius = 200.0;
 
-            var z_pos = new THREE.Vector2(x, y);
-            var particle_pos = new THREE.Vector2(200, 10);
-            var dx = z_pos.sub(particle_pos).length();
+                var z_pos = new THREE.Vector2(x, y);
+                //var particle_pos = new THREE.Vector2(10, 10);
+                var dx = z_pos.sub(w).length();
 
-            var rect;
-            if (Math.abs(dx)/(2*radius) < 0.5) {
-                rect = 1;
+                var rect;
+                if (Math.abs(dx)/(2*radius) < 0.5) {
+                    rect = 1;
+                }
+                else if (Math.abs(dx)/(2*radius) == 0.5) {
+                    rect = 0.5;
+                }
+                else {
+                    rect = 0;
+                }
+                var k = 500.0;
+                var D = (amp/2)*(Math.cos((Math.PI*dx)/radius)+1)*rect;
+                //console.log(D);
+                var diff = D - 4.96;
+
+                p.y = -10.0 +  k*diff;
             }
-            else if (Math.abs(dx)/(2*radius) == 0.5) {
-                rect = 0.5;
-            }
-            else {
-                rect = 0;
-            }
-
-            var D = (amp/2)*(Math.cos((Math.PI*dx)/radius)+1)*rect;
-            p.y += D;
+            
 
             setElement( i, positions, p );
+            
         }
     }
+    if (wave_reflect) {
+        wave_particles.array[0].y -= 0.2;
+    }
+    else {
+        wave_particles.array[0].y += 0.2;
+    }
+
+    if (wave_particles.array[0].y >= 20) {
+        wave_reflect = 1;
+    }
+    else if (wave_particles.array[0].y <= 0) {
+        wave_reflect = 0;
+    }
+    
+    //w.y += 1;
+    //setElement( 0, wave_particles, w);
 };
 
 ClothUpdater.prototype.updateVelocities = function ( particleAttributes, alive, delta_t, width, height ) {

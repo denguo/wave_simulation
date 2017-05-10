@@ -272,7 +272,7 @@ SystemSettings.cloth = {
     // Initializer
     initializerFunction : ClothInitializer,
     initializerSettings : {
-        position: new THREE.Vector3 ( 0.0, 1.0, 0.0),
+        position: new THREE.Vector3 ( 0.0, -10.0, 0.0),
         color:    new THREE.Vector4 ( 0.0, 0.0, 0.0, 1.0 ),
         velocity: new THREE.Vector3 ( 0.0, 0.0, 0.0),
     },

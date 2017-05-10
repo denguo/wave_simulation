@@ -13,6 +13,7 @@
 // Singleton Engine - we will have one particle engine per application,
 // driving the entire application.
 var ParticleEngine = ParticleEngine || new ( function() {
+    //console.log("new particle engine");
     var _self      = this;
 
     // Instance variables - list of emitters, and global delta time
@@ -106,6 +107,7 @@ var ParticleEngine = ParticleEngine || new ( function() {
 })();
 
 function Emitter ( opts ) {
+    //console.log("emitter");
     // console.log ( "Emiiter", this );
     // initialize some base variables needed by emitter, that we will extract from options
     this._maxParticleCount     = undefined;
@@ -203,9 +205,16 @@ function Emitter ( opts ) {
         }
         this._particles.addAttribute( 'index', new THREE.BufferAttribute( indices, 3 ) );
         this._particles.computeVertexNormals();
+
+        var wave_particles = [];
+        wave_particles[0] = new THREE.Vector2(10, 10);
+        this._particles.addAttribute( 'wave_particles', new THREE.BufferAttribute(wave_particles, 1));
     }
 
     this._particleAttributes = this._particles.attributes; // for convenience / less writing / not sure / #badprogramming
+    console.log("debug");
+    console.log(this._particleAttributes.index);
+    console.log(this._particleAttributes.wave_particles);
 
     this._sorting = false;
     this._distances = [];
@@ -222,7 +231,7 @@ function Emitter ( opts ) {
 };
 
 Emitter.prototype.restart = function() {
-
+    //console.log("resart");
     for ( var i = 0 ; i < this._maxParticleCount ; ++i ) {
 
         this._initialized[i] = 0;
@@ -247,6 +256,7 @@ Emitter.prototype.restart = function() {
 }
 
 Emitter.prototype.update = function( delta_t ) {
+    //console.log("update");
     // how many particles should we add?
     var toAdd = Math.floor( delta_t * this._particlesPerSecond );
 
@@ -281,6 +291,7 @@ Emitter.prototype.getDrawableParticles = function () {
 };
 
 Emitter.prototype.sortParticles = function () {
+    //console.log("sort");
     var positions  = this._particleAttributes.position;
     var cameraPosition = Renderer._camera.position;
 
@@ -320,6 +331,7 @@ Emitter.prototype.sortParticles = function () {
 };
 
 Emitter.prototype.getSpawnable = function ( toAdd ) {
+    //console.log("spawn");
     var toSpawn = [];
     for ( var i = 0 ; i < this._maxParticleCount ; ++i ) {
 
