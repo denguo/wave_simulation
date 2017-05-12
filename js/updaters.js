@@ -58,9 +58,6 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
 
     // TODO Add dispersion angle property to wave, requires also wave particle subdivision which is complicated...
 
-    // Note that "x" usually refers to (x,y)
-    // TODO velocity determined by forces on the water
-
     // Deviation field given x [vector2], the position (x,y) we are evaluating wave at
     var eta_z = function(x) {
       var sum = z_0;
@@ -69,12 +66,8 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
         var w = getWaveParticle(i, wave_particles);
         if (w.alive === 0) continue; // particle is not alive
         var d = dev(x, w);
-        // alert(d);
-        // alert(sum);
         sum += d;
       }
-      // alert(sum);
-      //console.log(sum);
       return sum;
     }
 
@@ -85,9 +78,6 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
       var a = w.amp; // amplitude
       var x_i = w.pos; //
       var u = x.clone().sub(x_i).length(); // dx = |x - x_i|
-      // console.log(u);
-      // alert(JSON.stringify(x) + ", " + JSON.stringify(x_i) + ", " + u + "; rect: " + (u/(2*radius))
-      //    + ", dev: " + ((a/2.0) * (Math.cos((Math.PI*u) / radius) + 1) * rect(u / (2*radius))));
       return (a/2.0) * (Math.cos((Math.PI*u) / radius) + 1) * rect(u / (2*radius));
     }
 
@@ -109,7 +99,6 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
 
         var z = eta_z(flat_pos);
         p.y = z; // we are letting p.y be 'z' coord
-        // alert(z);
 
         // update wave particles (they move based on wave velocity)
         for ( var j = 0; j < getLength(wave_particles); j++) {
@@ -117,86 +106,27 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
           if (w.alive === 0) continue; // dead particle
           // alert("old: " + JSON.stringify(w.pos));
           w.pos.add(w.vel.clone().multiplyScalar(delta_t));
-          // alert("new: " + JSON.stringify(w.pos));
-          // reflect if going out of bounds
+
+          // TODO also might want some kind of amplitude attenuation
+
+          // Boundary Handling:
           // We get these values based on initial (x,y) positions declared in Wave position initializer
-          // Note again that by "x,y" it's really "x,z" in the initializer
+          // Note again that by "x,y" it's really "x,z" in the actual particle coordinates
           var minX = 100 - (width - 1)*10;
           var maxX = 100;
           var minY = 100 - (height - 1)*10;
           var maxY = 100;
-          // alert(JSON.stringify(w.pos));
-          // if (w.pos.x < minX || w.pos.x > maxX || w.pos.y < minY || w.pos.y > maxY) {
-          //
-          // }
+          // Naively just reflect it
+          if (w.pos.x < minX || w.pos.x > maxX) {
+            w.vel.x = -1 * w.vel.x;
+          } else if (w.pos.y < minY || w.pos.y > maxY) {
+            w.vel.y = -1 * w.vel.y;
+          }
           setWaveParticle(j, wave_particles, w);
-          // var w2 = getWaveParticle(j, wave_particles);
-          // alert("Regot particle " + JSON.stringify(w2));
         }
 
-        // alert(JSON.stringify(p));
         setElement( i, positions, p );
-        // var p2 = getElement(i, positions);
-        // alert(JSON.stringify(p2));
     }
-
-    // for (var x = 0; x < 20; x++) {
-    //     for (var y = 0; y < 20; y++) {
-    //         var i = 20*x + y;
-    //
-    //         if ( !alive[i] ) continue;
-    //         var p = getElement( i, positions );
-    //         var v = getElement( i, velocities );
-    //         //var w = getElement( 0, wave_particles);
-    //
-    //
-    //         if (y == 10) {
-    //             var amp = 5.0;
-    //             var radius = 200.0;
-    //
-    //             var z_pos = new THREE.Vector2(x, y);
-    //             //var particle_pos = new THREE.Vector2(10, 10);
-    //             var dx = z_pos.sub(w).length();
-    //
-    //             var rect;
-    //             if (Math.abs(dx)/(2*radius) < 0.5) {
-    //                 rect = 1;
-    //             }
-    //             else if (Math.abs(dx)/(2*radius) == 0.5) {
-    //                 rect = 0.5;
-    //             }
-    //             else {
-    //                 rect = 0;
-    //             }
-    //             var k = 500.0;
-    //             var D = (amp/2)*(Math.cos((Math.PI*dx)/radius)+1)*rect;
-    //             ////console.log(D);
-    //             var diff = D - 4.96;
-    //
-    //             p.y = -10.0 +  k*diff;
-    //         }
-    //
-    //
-    //         setElement( i, positions, p );
-    //
-    //     }
-    // }
-    // if (wave_reflect) {
-    //     wave_particles.array[0].y -= 0.2;
-    // }
-    // else {
-    //     wave_particles.array[0].y += 0.2;
-    // }
-    //
-    // if (wave_particles.array[0].y >= 20) {
-    //     wave_reflect = 1;
-    // }
-    // else if (wave_particles.array[0].y <= 0) {
-    //     wave_reflect = 0;
-    // }
-
-    //w.y += 1;
-    //setElement( 0, wave_particles, w);
 };
 
 WaveUpdater.prototype.updateVelocities = function ( particleAttributes, alive, delta_t, width, height ) {
