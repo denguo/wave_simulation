@@ -4,15 +4,15 @@
  */
 
 ////////////////////////////////////////////////////////////////////////////////
-// Cloth
+// Wave
 ////////////////////////////////////////////////////////////////////////////////
 
-function ClothInitializer ( opts ) {
+function WaveInitializer ( opts ) {
     this._opts = opts;
     return this;
 };
 
-ClothInitializer.prototype.initializePositions = function ( positions, toSpawn, width, height ) {
+WaveInitializer.prototype.initializePositions = function ( positions, toSpawn, width, height ) {
     var base_pos = this._opts.position;
 
     for ( var i = 0 ; i < toSpawn.length ; ++i ) {
@@ -26,7 +26,7 @@ ClothInitializer.prototype.initializePositions = function ( positions, toSpawn, 
     positions.needUpdate = true;
 }
 
-ClothInitializer.prototype.initializeVelocities = function ( velocities, toSpawn) {
+WaveInitializer.prototype.initializeVelocities = function ( velocities, toSpawn) {
     var base_vel = this._opts.velocity;
     for ( var i = 0 ; i < toSpawn.length ; ++i ) {
         var idx = toSpawn[i];
@@ -35,7 +35,7 @@ ClothInitializer.prototype.initializeVelocities = function ( velocities, toSpawn
     velocities.needUpdate = true;
 }
 
-ClothInitializer.prototype.initializeColors = function ( colors, toSpawn) {
+WaveInitializer.prototype.initializeColors = function ( colors, toSpawn) {
     var base_col = this._opts.color;
     for ( var i = 0 ; i < toSpawn.length ; ++i ) {
         var idx = toSpawn[i];
@@ -46,7 +46,7 @@ ClothInitializer.prototype.initializeColors = function ( colors, toSpawn) {
     colors.needUpdate = true;
 }
 
-ClothInitializer.prototype.initializeSizes = function ( sizes, toSpawn) {
+WaveInitializer.prototype.initializeSizes = function ( sizes, toSpawn) {
     for ( var i = 0 ; i < toSpawn.length ; ++i ) {
         var idx = toSpawn[i];
         setElement( idx, sizes, 1 );
@@ -54,7 +54,7 @@ ClothInitializer.prototype.initializeSizes = function ( sizes, toSpawn) {
     sizes.needUpdate = true;
 }
 
-ClothInitializer.prototype.initializeLifetimes = function ( lifetimes, toSpawn) {
+WaveInitializer.prototype.initializeLifetimes = function ( lifetimes, toSpawn) {
     for ( var i = 0 ; i < toSpawn.length ; ++i ) {
         var idx = toSpawn[i];
         setElement( idx, lifetimes, Math.INFINITY );
@@ -63,7 +63,7 @@ ClothInitializer.prototype.initializeLifetimes = function ( lifetimes, toSpawn) 
 }
 
 
-ClothInitializer.prototype.initialize = function ( particleAttributes, toSpawn, width, height ) {
+WaveInitializer.prototype.initialize = function ( particleAttributes, toSpawn, width, height ) {
 
     // update required values
     this.initializePositions( particleAttributes.position, toSpawn, width, height );

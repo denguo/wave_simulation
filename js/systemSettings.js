@@ -1,16 +1,16 @@
 var SystemSettings = SystemSettings || {};
 
 ////////////////////////////////////////////////////////////////////////////////
-// Cloth
+// Wave
 ////////////////////////////////////////////////////////////////////////////////
 
-SystemSettings.cloth = {
+SystemSettings.wave = {
 
     // Particle Material
-    particleMaterial :  new THREE.MeshLambertMaterial( { color:0xff0000, side: THREE.DoubleSide  } ),
+    particleMaterial :  new THREE.MeshLambertMaterial( { color:0x0077be, side: THREE.DoubleSide  } ),
 
     // Initializer
-    initializerFunction : ClothInitializer,
+    initializerFunction : WaveInitializer,
     initializerSettings : {
         position: new THREE.Vector3 ( 0.0, -10.0, 0.0),
         color:    new THREE.Vector4 ( 0.0, 0.0, 0.0, 1.0 ),
@@ -18,14 +18,13 @@ SystemSettings.cloth = {
     },
 
     // Updater
-    updaterFunction : ClothUpdater,
+    updaterFunction : WaveUpdater,
     updaterSettings : {
         externalForces : {
-            gravity :     new THREE.Vector3( 0, -10.0, 0),
+            gravity :     new THREE.Vector3( 0, 0, 0),
             attractors : [],
         },
         collidables: {
-            bounceSpheres: [ {sphere : new THREE.Vector4( 0, 0, 0, 52.0 ), damping : 0.0 } ],
         },
     },
 
@@ -40,8 +39,8 @@ SystemSettings.cloth = {
 
     },
 
-    // Cloth specific settings
-    cloth : true,
+    // Wave specific settings
+    wave : true,
     width : 20,
     height : 20,
 };

@@ -28,14 +28,14 @@ Collisions.BouncePlane = function ( particleAttributes, alive, delta_t, plane,da
     }
 };
 
-function ClothUpdater ( opts ) {
+function WaveUpdater ( opts ) {
     this._opts = opts;
     this._s = 10.0;
     this._k_s = 0.55;
     return this;
 }
 
-ClothUpdater.prototype.updatePositions = function ( particleAttributes, alive, delta_t ) {
+WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, delta_t ) {
     var positions  = particleAttributes.position;
     var velocities = particleAttributes.velocity;
     //console.log("in updatePositions: ", particleAttributes.wave_particles);
@@ -43,6 +43,19 @@ ClothUpdater.prototype.updatePositions = function ( particleAttributes, alive, d
     //console.log(wave_particles);
     //console.log(wave_particles.array);
     var w = wave_particles.array[0];
+
+    // var z_0 = 0;
+    // var eta_z = function(pos, t) {
+    //
+    // }
+    //
+    // for ( var i  = 0 ; i < alive.length ; ++i ) {
+    //     if ( !alive[i] ) continue;
+    //     var p = getElement( i, positions );
+    //     var v = getElement( i, velocities );
+    //     p.add( v.clone().multiplyScalar( delta_t ) );
+    //     setElement( i, positions, p );
+    // }
 
     for (var x = 0; x < 20; x++) {
         for (var y = 0; y < 20; y++) {
@@ -103,7 +116,7 @@ ClothUpdater.prototype.updatePositions = function ( particleAttributes, alive, d
     //setElement( 0, wave_particles, w);
 };
 
-ClothUpdater.prototype.updateVelocities = function ( particleAttributes, alive, delta_t, width, height ) {
+WaveUpdater.prototype.updateVelocities = function ( particleAttributes, alive, delta_t, width, height ) {
     var positions = particleAttributes.position;
     var velocities = particleAttributes.velocity;
     var gravity = this._opts.externalForces.gravity;
@@ -129,7 +142,7 @@ ClothUpdater.prototype.updateVelocities = function ( particleAttributes, alive, 
 };
 
 
-ClothUpdater.prototype.collisions = function ( particleAttributes, alive, delta_t ) {
+WaveUpdater.prototype.collisions = function ( particleAttributes, alive, delta_t ) {
     if ( !this._opts.collidables ) {
         return;
     }
@@ -143,7 +156,7 @@ ClothUpdater.prototype.collisions = function ( particleAttributes, alive, delta_
 };
 
 
-ClothUpdater.prototype.update = function ( particleAttributes, alive, delta_t, width, height ) {
+WaveUpdater.prototype.update = function ( particleAttributes, alive, delta_t, width, height ) {
 
     this.updateVelocities( particleAttributes, alive, delta_t, width, height );
     this.updatePositions( particleAttributes, alive, delta_t, width, height );

@@ -33,13 +33,13 @@ Main.particleSystemChangeCallback = function ( InputSettings ) {
         initialize:    initializer,                  // initializer object
         update:        updater,                      // updater object
         material:      InputSettings.particleMaterial,
-        cloth:         InputSettings.cloth,
+        wave:         InputSettings.wave,
         width:         InputSettings.width,
         height:        InputSettings.height,
     } );
 
-    // If we are not dealing with cloth, lets sort particles
-    if ( !InputSettings.cloth ) {
+    // If we are not dealing with wave, lets sort particles
+    if ( !InputSettings.wave ) {
         emitter.enableSorting( Gui.values.sorting );
     }
 
@@ -67,7 +67,7 @@ window.onload = function() {
     Scene.create();
 
     // Add particle system
-    Main.particleSystemChangeCallback( SystemSettings.cloth );
+    Main.particleSystemChangeCallback( SystemSettings.wave );
 
     Renderer.create( Scene, document.getElementById("canvas") );
 

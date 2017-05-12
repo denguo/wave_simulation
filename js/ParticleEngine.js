@@ -114,7 +114,7 @@ function Emitter ( opts ) {
     this._particlesPerSecond   = undefined;
     this._initializer          = undefined;
     this._updater              = undefined;
-    this._cloth                = false;
+    this._wave                = false;
     this._width                = undefined;
     this._height               = undefined;
     this._attributeInformation = {
@@ -140,8 +140,8 @@ function Emitter ( opts ) {
             this._updater = value;
         } else if ( option === "material" ) {
             this._material = value;
-        } else if ( option === "cloth" ) {
-            this._cloth = value;
+        } else if ( option === "wave" ) {
+            this._wave = value;
         } else if ( option === "width" ) {
             this._width = value;
         } else if ( option === "height" ) {
@@ -151,7 +151,7 @@ function Emitter ( opts ) {
         }
     }
 
-    if ( this._cloth == true ) {
+    if ( this._wave == true ) {
         this._maxParticleCount = this._width * this._height;
         this._particlesPerSecond = 1e8 * this._maxParticleCount;
     }
@@ -185,11 +185,17 @@ function Emitter ( opts ) {
         this._particles.addAttribute( attributeKey, new THREE.BufferAttribute( attributeArray, attributeLength ) );
     }
 
-    // in case of cloth we need to describe to webGL how to render it.
-    if( this._cloth === true ) {
+    // in case of wave we need to describe to webGL how to render it.
+    if( this._wave === true ) {
+
+        // NOTE: We might want to do the following:
+        // Treat particles as actual wave particles (since we can manipulate their position, velocity, etc.)
+        // In this rendering section, create the mesh by doing the whole extended height field thing
 
         var indices = new Uint16Array( (this._width - 1) * (this._height - 1) * 6 );
         var idx = 0;
+        // Indices are indices for vertices (particles); there are w*h of them
+        // And three verts make a triangle to render for the mesh
         for ( var i = 0 ; i < this._width - 1 ; i++ ) {
             for ( var j = 0 ; j < this._height - 1 ; j++ ) {
                 indices[ 6 * idx + 0 ] = j * this._width + i;
@@ -221,7 +227,7 @@ function Emitter ( opts ) {
     this._backupArray = new Float32Array( this._maxParticleCount * 4 );
 
     // Create the drawable particles - this is the object that three.js will use to draw stuff onto screen
-    if ( this._cloth === true ) {
+    if ( this._wave === true ) {
         this._drawableParticles = new THREE.Mesh( this._particles, this._material );
     } else {
         this._drawableParticles = new THREE.PointCloud( this._particles, this._material );
@@ -276,7 +282,7 @@ Emitter.prototype.update = function( delta_t ) {
     this._drawableParticles.geometry.computeBoundingSphere();
 
     // particle position change each frame so we need
-    if ( this._cloth === true ) {
+    if ( this._wave === true ) {
         this._particles.computeVertexNormals();
     }
 }
@@ -344,4 +350,3 @@ Emitter.prototype.getSpawnable = function ( toAdd ) {
 
     return toSpawn;
 };
-

@@ -33,13 +33,13 @@ Batch.particleSystemChangeCallback = function ( InputSettings ) {
         initialize:    initializer,                  // initializer object
         update:        updater,                      // updater object
         material:      InputSettings.particleMaterial,
-        cloth:         InputSettings.cloth,
+        wave:         InputSettings.wave,
         width:         InputSettings.width,
         height:        InputSettings.height,
     } );
 
-    // If we are not dealing with cloth, lets sort particles
-    if ( !InputSettings.cloth ) {
+    // If we are not dealing with wave, lets sort particles
+    if ( !InputSettings.wave ) {
         emitter.enableSorting( Batch.cmds.sorting );
     }
 
@@ -78,7 +78,7 @@ window.onload = function() {
     // Add particle system
     Batch.particleSystemChangeCallback( SystemSettings[Batch.selectedSystem] );
 
-    if( Batch.selectedSystem != 'cloth' ) {
+    if( Batch.selectedSystem != 'wave' ) {
         var emitters = ParticleEngine.getEmitters();
         for ( var i = 0 ; i < emitters.length ; i++ ) {
             emitters[i]._material.uniforms.texture.value = new THREE.ImageUtils.loadTexture( 'images/' + Batch.cmds.texture + '.png' );

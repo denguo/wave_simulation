@@ -72,11 +72,11 @@ ParticleEngine.cubeEmitter = function ( count ) {
 
 ParticleEngine.update = function () {
 
-    var positions  = this._particles.getAttribute('position').array;
-    var velocities = this._particles.getAttribute('velocity').array;
-    var colors     = this._particles.getAttribute('color').array;
-    var lifetimes  = this._particles.getAttribute('lifetime').array;
-    var sizes      = this._particles.getAttribute('size').array;
+    var positions      = this._particles.getAttribute('position').array;
+    var velocities     = this._particles.getAttribute('velocity').array;
+    var colors         = this._particles.getAttribute('color').array;
+    var lifetimes      = this._particles.getAttribute('lifetime').array;
+    var sizes          = this._particles.getAttribute('size').array;
 
     var count = positions.length / 3;
     var timestep = 0.1;
