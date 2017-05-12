@@ -191,8 +191,9 @@ function Emitter ( opts ) {
         // NOTE: We might want to do the following:
         // Treat particles as actual wave particles (since we can manipulate their position, velocity, etc.)
         // In this rendering section, create the mesh by doing the whole extended height field thing
+        // ACTUALLY NVM.  We need the surface.
 
-        var indices = new Uint16Array( (this._width - 1) * (this._height - 1) * 6 );
+        var indices = new Uint16Array( (this._width - 1) * (this._height - 1) * 6 ); // 6 verts for 2 triangles
         var idx = 0;
         // Indices are indices for vertices (particles); there are w*h of them
         // And three verts make a triangle to render for the mesh
@@ -212,15 +213,31 @@ function Emitter ( opts ) {
         this._particles.addAttribute( 'index', new THREE.BufferAttribute( indices, 3 ) );
         this._particles.computeVertexNormals();
 
-        var wave_particles = [];
-        wave_particles[0] = new THREE.Vector2(10, 10);
-        this._particles.addAttribute( 'wave_particles', new THREE.BufferAttribute(wave_particles, 1));
+        // TODO find some way to make wave particles variable, or maybe very large so that we can generate/kill wave particles
+        // Wave particles have properties: alive, (x,y) pos, amp, (x,y) vel -- 6 total (so far)
+        var wave_particles = new Float32Array( this._width * this._height * 6);
+        var wave_particles_attribute = new THREE.BufferAttribute(wave_particles, 6);
+
+        // INTIIALIZE WAVE PARTICLE ATTRIBUTEs
+        for (var i = 0; i < getLength(wave_particles_attribute); i++) {
+          var w = getWaveParticle(i, wave_particles_attribute);
+          if (i < 20) // init only these particles
+            w.alive = 1;
+          else
+            w.alive = 0;
+          w.pos = new THREE.Vector2( 100.0 - (i % this._width) * 10, 100.0 - (i / this._height) * 10 );
+          w.amp = 10.0;
+          w.vel = new THREE.Vector2(0.0, -0.1);
+          setWaveParticle(i, wave_particles_attribute, w);
+        }
+        console.log("inited wave particles");
+        // for ( var i = 0 ; i < wave_particles.length ; i++ ) {
+        //     wave_particles[i] = 0; // makes alive=0 which means dead
+        // }
+        this._particles.addAttribute( 'wave_particles', wave_particles_attribute);
     }
 
     this._particleAttributes = this._particles.attributes; // for convenience / less writing / not sure / #badprogramming
-    console.log("debug");
-    console.log(this._particleAttributes.index);
-    console.log(this._particleAttributes.wave_particles);
 
     this._sorting = false;
     this._distances = [];

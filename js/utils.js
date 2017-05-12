@@ -2,10 +2,39 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Utility function to accessing correct element in arrays                    //
 ////////////////////////////////////////////////////////////////////////////////
+
+function getLength( attrib ) {
+  return attrib.array.length / attrib.itemSize;
+}
+
+// wave has alive, (x,y) pos, amplitude, (x,y) vel (5 components)
+function getWaveParticle( i, attrib ) {
+  return {
+    alive: attrib.array[6*i],
+    pos: new THREE.Vector2(attrib.array[6*i + 1], attrib.array[6*i + 2]),
+    amp: attrib.array[6*i + 3],
+    vel: new THREE.Vector2(attrib.array[6*i + 4], attrib.array[6*i + 5])
+  }
+}
+
+function setWaveParticle(i, attrib, val) {
+  attrib.array[6*i] = val.alive;
+  attrib.array[6*i + 1] = val.pos.x;
+  attrib.array[6*i + 2] = val.pos.y;
+  attrib.array[6*i + 3] = val.amp;
+  attrib.array[6*i + 4] = val.vel.x;
+  attrib.array[6*i + 5] = val.vel.y;
+}
+
 function getElement ( i, attrib ) {
     if ( attrib.itemSize === 1 ) {
 
         return attrib.array[i];
+
+    } else if ( attrib.itemSize === 2) {
+
+        return new THREE.Vector2( attrib.array[ 2 * i     ],
+                                  attrib.array[ 2 * i + 1 ] );
 
     } else if ( attrib.itemSize === 3 ) {
 

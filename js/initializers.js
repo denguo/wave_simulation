@@ -62,6 +62,20 @@ WaveInitializer.prototype.initializeLifetimes = function ( lifetimes, toSpawn) {
     lifetimes.needUpdate = true;
 }
 
+// hm for some reason this is being called multiple times. probabbly the wrong place to put this.
+WaveInitializer.prototype.initializeWaveParticles = function (wave_particles, width, height) {
+  // for (var i = 0; i < getLength(wave_particles); i++) {
+  //   var w = getWaveParticle(i, wave_particles);
+  //    if (i === 0) // just initialize a single particle
+  //     w.alive = 1;
+  //   w.pos = new THREE.Vector2( 100.0 - (i % width) * 10, 100.0 - (i / height) * 10 );
+  //   w.amp = 10.0;
+  //   w.vel = new THREE.Vector2(-5.0, 0.0);
+  //   setWaveParticle(i, wave_particles, w);
+  // }
+  // console.log("inited wave particles");
+}
+
 
 WaveInitializer.prototype.initialize = function ( particleAttributes, toSpawn, width, height ) {
 
@@ -76,6 +90,7 @@ WaveInitializer.prototype.initialize = function ( particleAttributes, toSpawn, w
 
     this.initializeSizes( particleAttributes.size, toSpawn );
 
+    this.initializeWaveParticles( particleAttributes.wave_particles, width, height);
     // mark normals to be updated
     particleAttributes["normal"].needsUpdate = true;
 
