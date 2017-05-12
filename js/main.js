@@ -67,7 +67,7 @@ window.onload = function() {
     Scene.create();
 
     // Add particle system
-    Main.particleSystemChangeCallback( SystemSettings.basic );
+    Main.particleSystemChangeCallback( SystemSettings.cloth );
 
     Renderer.create( Scene, document.getElementById("canvas") );
 

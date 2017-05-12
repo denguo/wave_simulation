@@ -9,7 +9,7 @@ Gui.windowSizes = [ "full","400x400","600x400","600x600","800x600","800x800" ];
 
 Gui.blendTypes = [ "Normal", "Additive" ];
 
-Gui.particleSystems = [ "basic", "fountainBounce", "fountainSink", "attractor", "animated", "cloth", "mySystem" ];
+Gui.particleSystems = [ "cloth" ];
 
 Gui.textures = [ "blank", "base", "fire", "smoke", "spark", "sphere", "smoke" ];
 
@@ -167,4 +167,3 @@ Gui.closeAlert = function () {
     var alertDiv = document.getElementById('alert_div');
     alertDiv.style.display = 'none';
 };
-
