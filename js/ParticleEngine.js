@@ -238,6 +238,12 @@ function Emitter ( opts ) {
         }
         console.log("inited wave particles");
         this._particles.addAttribute( 'wave_particles', wave_particles_attribute);
+
+        // 1-element array that keeps track of number of wave particles - 20 to start for now
+        var n_wave_particles = new Uint16Array(1);
+        n_wave_particles[0] = 20;
+        console.log("initial number of wave particles: ", n_wave_particles);
+        this._particles.addAttribute('n_wave_particles', new THREE.BufferAttribute(n_wave_particles, 1));
     }
 
     this._particleAttributes = this._particles.attributes; // for convenience / less writing / not sure / #badprogramming

@@ -44,6 +44,7 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
     // (x,y) position, amplitude
     // So it is a Vector3
     var wave_particles = particleAttributes.wave_particles;
+    var n_wave_particles = particleAttributes.n_wave_particles;
 
     ////console.log(wave_particles);
     ////console.log(wave_particles.array);
@@ -51,8 +52,8 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
 
     var z_0 = -10; // initial height (TODO this is the base position in system settings; need some way to get this value)
     var radius = 20; // particle radius; TODO this could become a wave particle property (don't forget to increase itemsize!)
-    
-    var xy_0 = 0;
+
+    //var xy_0 = 0;
 
     // TODO these are consistent with those in system settings.  Need some way to fetch this directly from system settings....
     var width = 20;
@@ -63,7 +64,6 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
     // Deviation field given x [vector2], the position (x,y) we are evaluating wave at
     var eta_z = function(x) {
       var sum = z_0;
-      //console.log("about to start");
       for ( var i = 0; i < getLength(wave_particles); i++) {
         var w = getWaveParticle(i, wave_particles);
         if (w.alive === 0) continue; // particle is not alive
@@ -73,9 +73,8 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
       return sum;
     }
 
-    var eta_xy = function(x) {
+    var eta_xy = function(x, xy_0) {
       var sum = xy_0;
-      //console.log("about to start");
       for ( var i = 0; i < getLength(wave_particles); i++) {
         var w = getWaveParticle(i, wave_particles);
         if (w.alive === 0) continue; // particle is not alive
@@ -118,11 +117,12 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
         var flat_pos = new THREE.Vector2(p.x, p.z); // note that we are letting p.z be 'y' coord
 
         var z = eta_z(flat_pos);
-        //console.log(z);
         p.y = z; // we are letting p.y be 'z' coord
 
-        var x = eta_xy(flat_pos);
-        p.z = x;
+        var x = eta_xy(flat_pos, 0);
+        //p.z = x;
+
+        //console.log(p.x, p.y, p.z);
 
         // update wave particles (they move based on wave velocity)
         for ( var j = 0; j < getLength(wave_particles); j++) {
@@ -145,6 +145,12 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
             w.vel.x = -1 * w.vel.x;
           } else if (w.pos.y < minY || w.pos.y > maxY) {
             w.vel.y = -1 * w.vel.y;
+
+            // "generate" a new particle
+            var n = n_wave_particles.array[0];
+            console.log("n_wave_particles: ", n);
+            setWaveParticle(n+1, wave_particles, w);
+            n_wave_particles.array[0] += 1;
           }
           setWaveParticle(j, wave_particles, w);
         }
