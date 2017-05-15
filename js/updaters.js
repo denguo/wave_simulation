@@ -131,9 +131,6 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
         p.y = z; // we are letting p.y be 'z' coord
 
         var xy = eta_xy(flat_pos, new THREE.Vector2(p.x, p.z));
-        if (i === 1) {
-          console.log(JSON.stringify(p));
-        }
         p.x = xy.x;
         p.z = xy.y;
 
