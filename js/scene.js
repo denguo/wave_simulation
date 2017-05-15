@@ -28,7 +28,7 @@ Scene.setupLighting = function() {
     var light = new THREE.AmbientLight( 0x303030 ); // soft white light
 
     this._light    = new THREE.PointLight( 0xffffff, 2.0, 500.0 );
-    this._dir_light = new THREE.DirectionalLight(0xffff55, 2.0);
+    this._dir_light = new THREE.DirectionalLight(0xffff55, 1.0);
     this._light .position.set( 0, 250, 0 );
     this._dir_light.position.set(-600, 300, 600);
 
@@ -159,7 +159,7 @@ Scene.loadSkyBox = function loadSkyBox() {
     materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( '../images/nz.jpg' ) }));
     for (var i = 0; i < 6; i++)
        materialArray[i].side = THREE.BackSide;
-    var oxMaterial = new THREE.MeshFaceMaterial( materialArray );
+    var skyboxMaterial = new THREE.MeshFaceMaterial( materialArray );
     var skyboxGeom = new THREE.CubeGeometry( 5000, 5000, 5000, 1, 1, 1 );
     var skybox = new THREE.Mesh( skyboxGeom, skyboxMaterial );
 

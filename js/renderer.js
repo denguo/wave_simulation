@@ -78,7 +78,7 @@ Renderer.create = function( scene, canvas ) {
 			textureWidth: 256,
 			textureHeight: 256,
 			waterNormals: waterNormals,
-			alpha: 	0.8,
+			alpha: 	0.9,
 			sunDirection: scene._dir_light.position.normalize(),
 			sunColor: 0xffffff,
 			waterColor: 0x0077be,
@@ -103,9 +103,11 @@ Renderer.update = function () {
 
     Renderer._controls.update();
     Renderer._stats.update();
+    Renderer._water.render();
 
     Renderer._renderer.render( Renderer._scene, Renderer._camera );
 
+    Renderer._water.material.uniforms.time.value += 1.0 / 60.0;
 
     requestAnimationFrame( Renderer.update );
 
