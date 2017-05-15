@@ -137,14 +137,11 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
           //if (j == 10 || j == 11) {
           //    console.log(w.disp);
           //}
+          //console.log(j, w.neighbor, w.disp);
 
           if (w.disp > 5*radius) {
-            //console.log("subdivide");
-            // subdivide into 3 with 1/3 amp, 1/3 disp angle
-
-             // "generate" a new particle
+            //console.log(j, w.neighbor, w.disp);
             
-            //console.log("n_wave_particles: ", n);
             var n = n_wave_particles.array[0];
             var w_left = {
                 alive: 1,
@@ -185,6 +182,7 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
             w.vel.y = -1 * w.vel.y;
           }
           setWaveParticle(j, wave_particles, w);
+          if (j == n+9) break;
         }
 
         setElement( i, positions, p );
