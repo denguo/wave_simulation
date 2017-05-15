@@ -9,6 +9,8 @@
 
 var Collisions = Collisions || {};
 var wave_reflect = 0;
+var first = true;
+
 
 // If we want to add objects into waves we might need to write a collision handler
 Collisions.BouncePlane = function ( particleAttributes, alive, delta_t, plane,damping ) {
@@ -125,63 +127,37 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
         //console.log(p.x, p.y, p.z);
 
         // update wave particles (they move based on wave velocity)
+        var counter = 0;
         for ( var j = 0; j < getLength(wave_particles); j++) {
           var w = getWaveParticle(j, wave_particles);
           if (w.alive === 0) continue; // dead particle
           // alert("old: " + JSON.stringify(w.pos));
           w.pos.add(w.vel.clone().multiplyScalar(delta_t));
 
-          //console.log(j);
-          //if (j == 10 || j == 11) {
-          //    console.log(w.disp);
-          //}
-          //console.log(j, w.neighbor, w.disp);
-
-          /*
-          if (w.disp > 5*radius) {
-            //console.log(j, w.neighbor, w.disp);
-            console.log(neighbor);
-
-            var n = n_wave_particles.array[0];
-            var idx = n+8;
-            //console.log(idx);
-
-            // left particle - 10
+          
+            // if (j % 2 == 1 ) {
+            //     if (counter > 2) {
+            //         w.alive = 0;
+            //         setWaveParticle(j, wave_particles, w);
+            //         continue;
+            //     }
+            //     //first = false;
+            // }
+            // counter++;
             
-            //w.amp;
-            w.disp /= 2.0;
-            w.neighbor = idx+2;
-            setWaveParticle(idx, wave_particles, w);
-
-            var w_right = {
-                alive: 1,
-                pos: w.pos,
-                amp: w.amp,
-                vel: new THREE.Vector2(0.05, -0.1),
-                disp: w.disp / 2.0,
-                neighbor: idx
-            }
-            setWaveParticle(idx+2, wave_particles, w_right);
-
-            // right particle - 11
-            //neighbor.amp;
-            neighbor.disp /= 2.0;
-            neighbor.neighbor = idx+3;
-            setWaveParticle(idx+1, wave_particles, neighbor);
-
-            var w_left = {
-                alive: 1,
-                pos: neighbor.pos,
-                amp: neighbor.amp,
-                vel: new THREE.Vector2(-0.05, -0.1),
-                disp: neighbor.disp / 2.0,
-                neighbor: idx+1
-            }
-            setWaveParticle(idx+3, wave_particles, w_left);
-            
-            // increment number of wave particles
-            n_wave_particles.array[0] += 2;
-          }*/
+            // n = n_wave_particles.array[0];
+            // if (n >= 4) {
+            //     if (j == 2 || j == 3) {
+            //         var neighbor = getWaveParticle(w.neighbor, wave_particles);
+            //         neighbor.neighbor = -1;
+            //         setWaveParticle(w.neighbor, wave_particles, neighbor);
+            //         w.alive = 0;
+            //         setWaveParticle(j, wave_particles, w);
+            //         continue;
+            //     }
+            // }
+           
+         
 
           // TODO also might want some kind of amplitude attenuation
 
@@ -213,23 +189,23 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
 
             var w_disp = w.pos.distanceTo(neighbor.pos);
 
-            if (w_disp > 5*radius) {
+            if (w_disp > radius) {
                 w.amp /= 2;
                 w.neighbor = n;
                 if (w.vel.x >= 0) {
-                    w.vel = new THREE.Vector2(w.vel.x+0.05, w.vel.y);
+                    w.vel = new THREE.Vector2(w.vel.x+.0125, w.vel.y);
                 }
                 else {
-                    w.vel = new THREE.Vector2(w.vel.x-0.05, w.vel.y);
+                    w.vel = new THREE.Vector2(w.vel.x-0.0125, w.vel.y);
                 }
                 setWaveParticle(j, wave_particles, w);
 
                 var vel_new;
                 if (w.vel.x >= 0) {
-                    vel_new = new THREE.Vector2(-w.vel.x-0.05, w.vel.y);
+                    vel_new = new THREE.Vector2(-w.vel.x-0.0125, w.vel.y);
                 }
                 else {
-                    vel_new = new THREE.Vector2(-w.vel.x+0.05, w.vel.y);
+                    vel_new = new THREE.Vector2(-w.vel.x+0.0125, w.vel.y);
                 }
 
                 var w_new = {
@@ -245,9 +221,9 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
             }
         }
 
-        if (n >= 399) {
-            console.log("wave particle buffer full");
-        }
+        // if (n >= 399) {
+        //     console.log("wave particle buffer full");
+        // }
 
         setElement( i, positions, p );
     }
