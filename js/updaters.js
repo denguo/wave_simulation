@@ -55,11 +55,9 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
     var z_0 = -10; // initial height (TODO this is the base position in system settings; need some way to get this value)
     var radius = 20; // particle radius; TODO this could become a wave particle property (don't forget to increase itemsize!)
 
-    //var xy_0 = 0;
-
     // TODO these are consistent with those in system settings.  Need some way to fetch this directly from system settings....
-    var width = 20;
-    var height = 20;
+    var width = 30;
+    var height = 30;
 
     // TODO Add dispersion angle property to wave, requires also wave particle subdivision which is complicated...
 
@@ -69,37 +67,49 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
       for ( var i = 0; i < getLength(wave_particles); i++) {
         var w = getWaveParticle(i, wave_particles);
         if (w.alive === 0) continue; // particle is not alive
-        var d = dev(x, w);
+        var d = (w.amp/2.0) * dev(x, w);
         sum += d;
       }
-      return sum;
+      return sum; // (z)
     }
 
-    var eta_xy = function(x, xy_0) {
-      var sum = xy_0;
+    // deviation function in longitudinal direction; input is
+    // original position (x,y), output is deviation in (x,y) directions
+    var eta_xy = function(x, orig) {
+      var sum = orig.clone();
+      //console.log("about to start");
       for ( var i = 0; i < getLength(wave_particles); i++) {
         var w = getWaveParticle(i, wave_particles);
         if (w.alive === 0) continue; // particle is not alive
         var d = dev_long(x, w);
-        sum += d;
+        sum.add(d);
       }
-      return sum;
+      // alert(JSON.stringify(sum));
+      return sum; // (x,y)
     }
 
     // Deviation function (transverse)
     // x [vector2] with (x,y)
-    // particle [vector3] is wave particle (x,y pos and amplitude)
+    // w is wave particle
     var dev = function(x, w) {
       var a = w.amp; // amplitude
-      var x_i = w.pos; //
+      var x_i = new THREE.Vector2(w.pos.x, w.pos.y);
       var u = x.clone().sub(x_i).length(); // dx = |x - x_i|
-      return (a/2.0) * (Math.cos((Math.PI*u) / radius) + 1) * rect(u / (2*radius));
+      return (Math.cos((Math.PI*u) / radius) + 1) * rect(u / (2*radius));
     }
 
+    // Deviation function (longitudinal)
+    // x [vector2] with (x,y)
+    // w is wave particle
     var dev_long = function(x, w) {
-      var x_i = w.pos;
-      var u = x.clone().sub(x_i).length(); // dx = |x - x_i|
-      return -1.0 * (Math.sin((Math.PI*u) / radius) + 1) * rect(u / (2*radius));
+      var x_i = new THREE.Vector2(w.pos.x, w.pos.y);
+      var u_i = w.vel.clone().normalize();
+      return longitudinal(u_i.dot(x.clone().sub(x_i)), u_i).multiplyScalar(dev(x, w) / (w.amp / 2.0));
+    }
+
+    // longitudinal function taking some scalar u and returning a vector in direction of propogation (u_i)
+    var longitudinal = function(u, u_i) {
+      return u_i.clone().multiplyScalar(-1.0 * (Math.sin((Math.PI*u) / radius) + 1) * rect(u / (2*radius)));
     }
 
     // Rectangle function, return 1 if num>0.5, 0.5 if num=0.5, 0 o/w
@@ -121,10 +131,9 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
         var z = eta_z(flat_pos);
         p.y = z; // we are letting p.y be 'z' coord
 
-        var x = eta_xy(flat_pos, 0);
-        //p.z = x;
-
-        //console.log(p.x, p.y, p.z);
+        var xy = eta_xy(flat_pos, new THREE.Vector2(p.x, p.z));
+        // p.x = xy.x;
+        // p.z = xy.y;
 
         // update wave particles (they move based on wave velocity)
         var counter = 0;

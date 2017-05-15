@@ -225,7 +225,6 @@ function Emitter ( opts ) {
         // INTIIALIZE WAVE PARTICLE ATTRIBUTES
         for (var i = 0; i < getLength(wave_particles_attribute); i++) {
           var w = getWaveParticle(i, wave_particles_attribute);
-
           // Just init them in the same position as the surface particles
           w.alive = 0;
           w.pos = new THREE.Vector2( 100.0 - (i % this._width) * 10, 100.0 - (i / this._height) * 10 );
