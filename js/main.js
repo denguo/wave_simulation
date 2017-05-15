@@ -32,7 +32,7 @@ Main.particleSystemChangeCallback = function ( InputSettings ) {
         particlesFreq: InputSettings.particlesFreq,  // how many particle per second will we emit?
         initialize:    initializer,                  // initializer object
         update:        updater,                      // updater object
-        material:      InputSettings.particleMaterial,
+        material:      Renderer._water.material,//InputSettings.particleMaterial,
         wave:         InputSettings.wave,
         width:         InputSettings.width,
         height:        InputSettings.height,
@@ -66,10 +66,11 @@ window.onload = function() {
               Main.displayChangeCallback );
     Scene.create();
 
+    Renderer.create( Scene, document.getElementById("canvas") );
+
     // Add particle system
     Main.particleSystemChangeCallback( SystemSettings.wave );
 
-    Renderer.create( Scene, document.getElementById("canvas") );
 
     Renderer.update();
 };

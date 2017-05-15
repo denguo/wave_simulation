@@ -225,7 +225,7 @@ function Emitter ( opts ) {
         // INTIIALIZE WAVE PARTICLE ATTRIBUTES
         for (var i = 0; i < getLength(wave_particles_attribute); i++) {
           var w = getWaveParticle(i, wave_particles_attribute);
-            
+
           // Just init them in the same position as the surface particles
           w.alive = 0;
           w.pos = new THREE.Vector2( 100.0 - (i % this._width) * 10, 100.0 - (i / this._height) * 10 );
@@ -233,7 +233,7 @@ function Emitter ( opts ) {
           w.vel = new THREE.Vector2(0.0, -0.1); // This will make it roll from one side to the other
           w.disp = 0.0;
           w.neighbor = -1;
-          
+
           setWaveParticle(i, wave_particles_attribute, w);
         }
 

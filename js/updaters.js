@@ -134,7 +134,7 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
           // alert("old: " + JSON.stringify(w.pos));
           w.pos.add(w.vel.clone().multiplyScalar(delta_t));
 
-          
+
             // if (j % 2 == 1 ) {
             //     if (counter > 2) {
             //         w.alive = 0;
@@ -144,7 +144,7 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
             //     //first = false;
             // }
             // counter++;
-            
+
             // n = n_wave_particles.array[0];
             // if (n >= 4) {
             //     if (j == 2 || j == 3) {
@@ -156,8 +156,8 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
             //         continue;
             //     }
             // }
-           
-         
+
+
 
           // TODO also might want some kind of amplitude attenuation
 
@@ -179,51 +179,53 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
 
         // subdivision and particle generation
         var n = n_wave_particles.array[0];
-        var n_original = new Number(n);
-        //console.log(n_original);
-        for ( var j = 0; j < n_original; j++) {
-            n = n_wave_particles.array[0];
-            //console.log(n_original);
-            var w = getWaveParticle(j, wave_particles);
-            var neighbor = getWaveParticle(w.neighbor, wave_particles);
+        if ( n < 399 ) {
+          var n_original = new Number(n);
+          //console.log(n_original);
+          for ( var j = 0; j < n_original; j++) {
+              n = n_wave_particles.array[0];
+              //console.log(n_original);
+              var w = getWaveParticle(j, wave_particles);
+              var neighbor = getWaveParticle(w.neighbor, wave_particles);
 
-            var w_disp = w.pos.distanceTo(neighbor.pos);
+              var w_disp = w.pos.distanceTo(neighbor.pos);
 
-            if (w_disp > radius) {
-                w.amp /= 2;
-                w.neighbor = n;
-                if (w.vel.x >= 0) {
-                    w.vel = new THREE.Vector2(w.vel.x+.0125, w.vel.y);
-                }
-                else {
-                    w.vel = new THREE.Vector2(w.vel.x-0.0125, w.vel.y);
-                }
-                setWaveParticle(j, wave_particles, w);
+              if (w_disp > radius) {
+                  w.amp /= 2;
+                  w.neighbor = n;
+                  if (w.vel.x >= 0) {
+                      w.vel = new THREE.Vector2(w.vel.x+.0125, w.vel.y);
+                  }
+                  else {
+                      w.vel = new THREE.Vector2(w.vel.x-0.0125, w.vel.y);
+                  }
+                  setWaveParticle(j, wave_particles, w);
 
-                var vel_new;
-                if (w.vel.x >= 0) {
-                    vel_new = new THREE.Vector2(-w.vel.x-0.0125, w.vel.y);
-                }
-                else {
-                    vel_new = new THREE.Vector2(-w.vel.x+0.0125, w.vel.y);
-                }
+                  var vel_new;
+                  if (w.vel.x >= 0) {
+                      vel_new = new THREE.Vector2(-w.vel.x-0.0125, w.vel.y);
+                  }
+                  else {
+                      vel_new = new THREE.Vector2(-w.vel.x+0.0125, w.vel.y);
+                  }
 
-                var w_new = {
-                    alive: 1,
-                    pos: w.pos,
-                    amp: w.amp,
-                    vel: vel_new,
-                    disp: w.disp,
-                    neighbor: j
-                }
-                setWaveParticle(n, wave_particles, w_new);
-                n_wave_particles.array[0] += 1;
-            }
+                  var w_new = {
+                      alive: 1,
+                      pos: w.pos,
+                      amp: w.amp,
+                      vel: vel_new,
+                      disp: w.disp,
+                      neighbor: j
+                  }
+                  setWaveParticle(n, wave_particles, w_new);
+                  n_wave_particles.array[0] += 1;
+              }
+          }
+
+          // if (n >= 399) {
+          //     console.log("wave particle buffer full");
+          // }
         }
-
-        // if (n >= 399) {
-        //     console.log("wave particle buffer full");
-        // }
 
         setElement( i, positions, p );
     }

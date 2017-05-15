@@ -7,7 +7,7 @@ var SystemSettings = SystemSettings || {};
 SystemSettings.wave = {
 
     // Particle Material
-    particleMaterial :  new THREE.MeshLambertMaterial( { color:0x0077be, side: THREE.DoubleSide  } ),
+    particleMaterial : new THREE.MeshLambertMaterial( { color:0x0077be, side: THREE.DoubleSide  } ),
 
     // Initializer
     initializerFunction : WaveInitializer,
@@ -32,11 +32,19 @@ SystemSettings.wave = {
     maxParticles:  400,
     particlesFreq: 1000,
     createScene : function () {
+      // alert(JSON.stringify(Renderer))
         //var sphere_geo = new THREE.SphereGeometry( 50.0, 32, 32 );
         //var phong      = new THREE.MeshPhongMaterial( {color: 0x444444, emissive:0x442222, side: THREE.DoubleSide } );
-
+        // alert(JSON.stringify(Scene));
         //Scene.addObject( new THREE.Mesh( sphere_geo, phong ) );
 
+        // var aMeshMirror = new THREE.Mesh(
+        //   new THREE.PlaneBufferGeometry(2000, 2000, 10, 10),
+        // );
+        // aMeshMirror.add(this.water);
+        // aMeshMirror.rotation.x = - Math.PI * 0.5;
+        //
+        // Scene._scene.add(aMeshMirror);
     },
 
     // Wave specific settings

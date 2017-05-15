@@ -13,7 +13,7 @@ var Renderer = Renderer || {
     _width      : undefined,
     _height     : undefined,
     _aspect     : undefined,
-
+    _water      : undefined,
 };
 
 Renderer.getDims = function() {
@@ -66,6 +66,23 @@ Renderer.create = function( scene, canvas ) {
     // create raycaster
     Renderer._mouse = new THREE.Vector2;
     Renderer._raycaster = new THREE.Raycaster();
+
+    // Load textures
+		var waterNormals = new THREE.ImageUtils.loadTexture('../waternormals.jpg');
+		waterNormals.wrapS = waterNormals.wrapT = THREE.RepeatWrapping;
+
+		// Create the water effect
+	  Renderer._water = new THREE.Water(this._renderer, this._camera, this._scene, {
+			textureWidth: 256,
+			textureHeight: 256,
+			waterNormals: waterNormals,
+			alpha: 	0.8,
+			sunDirection: scene._dir_light.position.normalize(),
+			sunColor: 0xffffff,
+			waterColor: 0x0077be,
+			betaVersion: 0,
+			side: THREE.DoubleSide
+		});
 };
 
 Renderer.onWindowResize = function () {
