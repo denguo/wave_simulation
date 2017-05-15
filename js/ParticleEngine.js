@@ -219,7 +219,7 @@ function Emitter ( opts ) {
 
         // TODO find some way to make wave particles variable sized, or maybe very large so that we can generate/kill wave particles
         // Wave particles have properties: alive, (x,y) pos, amp, (x,y) vel -- 8 total (so far) -- TODO add radius?
-        var wave_particles = new Float32Array( this._width * this._height * 8);
+        var wave_particles = new Float32Array( 400 * 8);
         var wave_particles_attribute = new THREE.BufferAttribute(wave_particles, 8);
 
         // INTIIALIZE WAVE PARTICLE ATTRIBUTES
