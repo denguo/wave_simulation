@@ -241,14 +241,14 @@ function Emitter ( opts ) {
         var w_0 = getWaveParticle(0, wave_particles_attribute);
         w_0.alive = 1;
         w_0.pos = new THREE.Vector2( 100.0 - (10 % this._width) * 10, 100.0 - (10 / this._height) * 10 );
-        w_0.vel = (-0.05, -0.1);
+        w_0.vel = new THREE.Vector2(-0.05, -0.1);
         w_0.neighbor = 1;
         setWaveParticle(0, wave_particles_attribute, w_0);
 
         var w_1 = getWaveParticle(1, wave_particles_attribute);
         w_1.alive = 1;
         w_1.pos = new THREE.Vector2( 100.0 - (11 % this._width) * 10, 100.0 - (11 / this._height) * 10 );
-        w_1.vel = (0.05, -0.1);
+        w_1.vel = new THREE.Vector2(0.05, -0.1);
         w_1.neighbor = 0;
         setWaveParticle(1, wave_particles_attribute, w_1);
 
