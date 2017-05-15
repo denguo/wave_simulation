@@ -130,7 +130,7 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
           if (w.alive === 0) continue; // dead particle
           // alert("old: " + JSON.stringify(w.pos));
           w.pos.add(w.vel.clone().multiplyScalar(delta_t));
-
+          
           // TODO also might want some kind of amplitude attenuation
 
           // Boundary Handling:
@@ -145,12 +145,6 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
             w.vel.x = -1 * w.vel.x;
           } else if (w.pos.y < minY || w.pos.y > maxY) {
             w.vel.y = -1 * w.vel.y;
-
-            // "generate" a new particle
-            var n = n_wave_particles.array[0];
-            console.log("n_wave_particles: ", n);
-            setWaveParticle(n+1, wave_particles, w);
-            n_wave_particles.array[0] += 1;
           }
           setWaveParticle(j, wave_particles, w);
         }

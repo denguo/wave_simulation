@@ -13,7 +13,9 @@ function getWaveParticle( i, attrib ) {
     alive: attrib.array[6*i],
     pos: new THREE.Vector2(attrib.array[6*i + 1], attrib.array[6*i + 2]),
     amp: attrib.array[6*i + 3],
-    vel: new THREE.Vector2(attrib.array[6*i + 4], attrib.array[6*i + 5])
+    vel: new THREE.Vector2(attrib.array[6*i + 4], attrib.array[6*i + 5]),
+    disp: attrib.array[6*i + 6],
+    neighbor: attrib.array[6*i + 7]
   }
 }
 
@@ -24,6 +26,8 @@ function setWaveParticle(i, attrib, val) {
   attrib.array[6*i + 3] = val.amp;
   attrib.array[6*i + 4] = val.vel.x;
   attrib.array[6*i + 5] = val.vel.y;
+  attrib.array[6*i + 6] = val.disp;
+  attrib.array[6*i + 7] = val.neighbor;
 }
 
 function getElement ( i, attrib ) {

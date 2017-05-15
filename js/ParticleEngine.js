@@ -218,30 +218,41 @@ function Emitter ( opts ) {
         ///////////////////////////////////////////////////////////////////////
 
         // TODO find some way to make wave particles variable sized, or maybe very large so that we can generate/kill wave particles
-        // Wave particles have properties: alive, (x,y) pos, amp, (x,y) vel -- 6 total (so far) -- TODO add radius?
-        var wave_particles = new Float32Array( this._width * this._height * 6);
-        var wave_particles_attribute = new THREE.BufferAttribute(wave_particles, 6);
+        // Wave particles have properties: alive, (x,y) pos, amp, (x,y) vel -- 8 total (so far) -- TODO add radius?
+        var wave_particles = new Float32Array( this._width * this._height * 8);
+        var wave_particles_attribute = new THREE.BufferAttribute(wave_particles, 8);
 
         // INTIIALIZE WAVE PARTICLE ATTRIBUTES
         for (var i = 0; i < getLength(wave_particles_attribute); i++) {
           var w = getWaveParticle(i, wave_particles_attribute);
-          if (i < 20) // init only these particles (this will form a wall of wave particles at one end of the pool)
+          if (i == 10)  {
             w.alive = 1;
-          else
+            w.vel = new THREE.Vector2(-0.05, -0.1); // This will make it roll from one side to the other
+          }
+          else if (i == 11) {
+            w.alive = 1;
+            w.vel = new THREE.Vector2(0.05, -0.1); // This will make it roll from one side to the other
+          }
+          else {
             w.alive = 0;
+            w.vel = new THREE.Vector2(0.0, -0.1); // This will make it roll from one side to the other
+          }
+            
           // Just init them in the same position as the surface particles
           w.pos = new THREE.Vector2( 100.0 - (i % this._width) * 10, 100.0 - (i / this._height) * 10 );
           w.amp = 10.0; // amplitude
-          w.vel = new THREE.Vector2(0.0, -0.1); // This will make it roll from one side to the other
+          w.disp = 0;
+          w.neighbor = i;
           
-          setWaveParticle(i, wave_particles_attribute, w);
+          setWaveParticle(i-10, wave_particles_attribute, w);
         }
+
         console.log("inited wave particles");
         this._particles.addAttribute( 'wave_particles', wave_particles_attribute);
 
         // 1-element array that keeps track of number of wave particles - 20 to start for now
         var n_wave_particles = new Uint16Array(1);
-        n_wave_particles[0] = 20;
+        n_wave_particles[0] = 2;
         console.log("initial number of wave particles: ", n_wave_particles);
         this._particles.addAttribute('n_wave_particles', new THREE.BufferAttribute(n_wave_particles, 1));
     }
