@@ -169,15 +169,22 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
 
 
           // TODO also might want some kind of amplitude attenuation
-          w.amp = w.amp * 0.9999;
+          w.amp = w.amp * 0.99995;
+          if (w.amp < 0.1) {
+            var neighbor = getWaveParticle(w.neighbor, wave_particles);
+            neighbor.neighbor = -1;
+            setWaveParticle(w.neighbor, wave_particles, neighbor);
+            w.alive = 0;
+            setWaveParticle(j, wave_particles, w);
+          }
 
           // Boundary Handling:
           // We get these values based on initial (x,y) positions declared in Wave position initializer
           // Note again that by "x,y" it's really "x,z" in the actual particle coordinates
-          var minX = 100 - (width - 1)*10;
-          var maxX = 100;
-          var minY = 100 - (height - 1)*10;
-          var maxY = 100;
+          var minX = 100 - (width - 1)*10 + 20;
+          var maxX = 80;
+          var minY = 100 - (height - 1)*10 + 20;
+          var maxY = 80;
           // Naively just reflect it
           if (w.pos.x < minX || w.pos.x > maxX) {
             w.vel.x = -1 * w.vel.x;
@@ -205,19 +212,19 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
                     w.amp /= 2;
                     w.neighbor = n;
                     if (w.vel.x >= 0) {
-                        w.vel = new THREE.Vector2(w.vel.x+.0125, w.vel.y);
+                        w.vel = new THREE.Vector2(w.vel.x+.025, w.vel.y);
                     }
                     else {
-                        w.vel = new THREE.Vector2(w.vel.x-0.0125, w.vel.y);
+                        w.vel = new THREE.Vector2(w.vel.x-0.025, w.vel.y);
                     }
                     setWaveParticle(j, wave_particles, w);
 
                     var vel_new;
                     if (w.vel.x >= 0) {
-                        vel_new = new THREE.Vector2(-w.vel.x-0.0125, w.vel.y);
+                        vel_new = new THREE.Vector2(-w.vel.x-0.025, w.vel.y);
                     }
                     else {
-                        vel_new = new THREE.Vector2(-w.vel.x+0.0125, w.vel.y);
+                        vel_new = new THREE.Vector2(-w.vel.x+0.025, w.vel.y);
                     }
 
                     var w_new = {

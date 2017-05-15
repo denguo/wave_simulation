@@ -219,7 +219,7 @@ function Emitter ( opts ) {
 
         // TODO find some way to make wave particles variable sized, or maybe very large so that we can generate/kill wave particles
         // Wave particles have properties: alive, (x,y) pos, amp, (x,y) vel -- 8 total (so far) -- TODO add radius?
-        var wave_particles = new Float32Array( 4096 * 8);
+        var wave_particles = new Float32Array( 400 * 8);
         var wave_particles_attribute = new THREE.BufferAttribute(wave_particles, 8);
 
         // INTIIALIZE WAVE PARTICLE ATTRIBUTES
@@ -228,7 +228,7 @@ function Emitter ( opts ) {
           // Just init them in the same position as the surface particles
           w.alive = 0;
           w.pos = new THREE.Vector2( 100.0 - (i % this._width) * 10, 100.0 - (i / this._height) * 10 );
-          w.amp = 30.0; // amplitude
+          w.amp = 20.0; // amplitude
           w.vel = new THREE.Vector2(0.0, -0.1); // This will make it roll from one side to the other
           w.disp = 0.0;
           w.neighbor = -1;
@@ -239,15 +239,15 @@ function Emitter ( opts ) {
         // initialize two particles - position 10 and 11
         var w_0 = getWaveParticle(0, wave_particles_attribute);
         w_0.alive = 1;
-        w_0.pos = new THREE.Vector2( 100.0 - (10 % this._width) * 10, 100.0 - (10 / this._height) * 10 );
-        w_0.vel = new THREE.Vector2(-0.0125, -0.25);
+        w_0.pos = new THREE.Vector2( 100.0 - (10 % this._width) * 10 - 20, 100.0 - (10 / this._height) * 10 - 20);
+        w_0.vel = new THREE.Vector2(-0.025, -0.25);
         w_0.neighbor = 1;
         setWaveParticle(0, wave_particles_attribute, w_0);
 
         var w_1 = getWaveParticle(1, wave_particles_attribute);
         w_1.alive = 1;
-        w_1.pos = new THREE.Vector2( 100.0 - (11 % this._width) * 10, 100.0 - (11 / this._height) * 10 );
-        w_1.vel = new THREE.Vector2(0.0125, -0.25);
+        w_1.pos = new THREE.Vector2( 100.0 - (11 % this._width) * 10-20, 100.0 - (11 / this._height) * 10- 20 );
+        w_1.vel = new THREE.Vector2(0.025, -0.25);
         w_1.neighbor = 0;
         setWaveParticle(1, wave_particles_attribute, w_1);
 
