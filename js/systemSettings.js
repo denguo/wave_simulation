@@ -29,7 +29,7 @@ SystemSettings.wave = {
     },
 
     // Scene
-    maxParticles:  400,
+    maxParticles:  900,
     particlesFreq: 1000,
     createScene : function () {
         //var sphere_geo = new THREE.SphereGeometry( 50.0, 32, 32 );
@@ -41,6 +41,6 @@ SystemSettings.wave = {
 
     // Wave specific settings
     wave : true,
-    width : 20,
-    height : 20,
+    width : 30,
+    height : 30,
 };

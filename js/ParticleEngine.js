@@ -225,15 +225,16 @@ function Emitter ( opts ) {
         // INTIIALIZE WAVE PARTICLE ATTRIBUTES
         for (var i = 0; i < getLength(wave_particles_attribute); i++) {
           var w = getWaveParticle(i, wave_particles_attribute);
-          if (i < 20) // init only these particles (this will form a wall of wave particles at one end of the pool)
+          // init only these particles (this will form a wall of wave particles)
+          if (i < 30 + this._height * 10 && i > this._height * 10)
             w.alive = 1;
           else
             w.alive = 0;
           // Just init them in the same position as the surface particles
-          w.pos = new THREE.Vector2( 100.0 - (i % this._width) * 10, 100.0 - (i / this._height) * 10 );
-          w.amp = 10.0; // amplitude
-          w.vel = new THREE.Vector2(0.0, -0.1); // This will make it roll from one side to the other
-          
+          w.pos = new THREE.Vector2( 50.0 - (i % this._width) * 5, 50.0 - (i / this._height) * 5 );
+          w.amp = 5.0; // amplitude
+          w.vel = new THREE.Vector2(0.0, -0.05); // This will make it roll from one side to the other
+
           setWaveParticle(i, wave_particles_attribute, w);
         }
         console.log("inited wave particles");

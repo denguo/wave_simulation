@@ -19,7 +19,7 @@ WaveInitializer.prototype.initializePositions = function ( positions, toSpawn, w
         var idx = toSpawn[i];
         var w = idx % width;
         var h = idx / height;
-        var grid_pos = new THREE.Vector3( 100.0 - w * 10, 0.0, 100.0 - h * 10 );
+        var grid_pos = new THREE.Vector3( 50.0 - w * 5, 0.0, 50.0 - h * 5 );
         var pos = grid_pos.add( base_pos );
         setElement( idx, positions, pos );
     }
