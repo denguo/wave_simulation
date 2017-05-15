@@ -227,6 +227,8 @@ function Emitter ( opts ) {
           var w = getWaveParticle(i, wave_particles_attribute);
           // Just init them in the same position as the surface particles
           w.alive = 0;
+          // if (w.alive < 20)
+          //   w.alive = 1;
           w.pos = new THREE.Vector2( 100.0 - (i % this._width) * 10, 100.0 - (i / this._height) * 10 );
           w.amp = 20.0; // amplitude
           w.vel = new THREE.Vector2(0.0, -0.1); // This will make it roll from one side to the other
@@ -240,14 +242,14 @@ function Emitter ( opts ) {
         var w_0 = getWaveParticle(0, wave_particles_attribute);
         w_0.alive = 1;
         w_0.pos = new THREE.Vector2( 100.0 - (10 % this._width) * 10 - 20, 100.0 - (10 / this._height) * 10 - 20);
-        w_0.vel = new THREE.Vector2(-0.025, -0.25);
+        w_0.vel = new THREE.Vector2(-0.025, -0.5);
         w_0.neighbor = 1;
         setWaveParticle(0, wave_particles_attribute, w_0);
 
         var w_1 = getWaveParticle(1, wave_particles_attribute);
         w_1.alive = 1;
         w_1.pos = new THREE.Vector2( 100.0 - (11 % this._width) * 10-20, 100.0 - (11 / this._height) * 10- 20 );
-        w_1.vel = new THREE.Vector2(0.025, -0.25);
+        w_1.vel = new THREE.Vector2(0.025, -0.5);
         w_1.neighbor = 0;
         setWaveParticle(1, wave_particles_attribute, w_1);
 

@@ -32,7 +32,7 @@ Main.particleSystemChangeCallback = function ( InputSettings ) {
         particlesFreq: InputSettings.particlesFreq,  // how many particle per second will we emit?
         initialize:    initializer,                  // initializer object
         update:        updater,                      // updater object
-        material:      Renderer._water.material,//InputSettings.particleMaterial,
+        material:      Renderer._water.material,//InputSettings.particleMaterial,//
         wave:         InputSettings.wave,
         width:         InputSettings.width,
         height:        InputSettings.height,

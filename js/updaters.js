@@ -169,7 +169,7 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
 
 
           // TODO also might want some kind of amplitude attenuation
-          w.amp = w.amp * 0.99995;
+          // w.amp = w.amp * 0.99995;
           if (w.amp < 0.1) {
             var neighbor = getWaveParticle(w.neighbor, wave_particles);
             neighbor.neighbor = -1;
@@ -181,10 +181,10 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
           // Boundary Handling:
           // We get these values based on initial (x,y) positions declared in Wave position initializer
           // Note again that by "x,y" it's really "x,z" in the actual particle coordinates
-          var minX = 100 - (width - 1)*10 + 20;
-          var maxX = 80;
-          var minY = 100 - (height - 1)*10 + 20;
-          var maxY = 80;
+          var minX = 100 - (width - 1)*7 ;
+          var maxX = 100;
+          var minY = 100 - (height - 1)*7;
+          var maxY = 100;
           // Naively just reflect it
           if (w.pos.x < minX || w.pos.x > maxX) {
             w.vel.x = -1 * w.vel.x;
@@ -209,7 +209,7 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
                 var w_disp = w.pos.distanceTo(neighbor.pos);
 
                 if (w_disp > radius) {
-                    w.amp /= 2;
+                    w.amp /= 1.7;
                     w.neighbor = n;
                     if (w.vel.x >= 0) {
                         w.vel = new THREE.Vector2(w.vel.x+.025, w.vel.y);

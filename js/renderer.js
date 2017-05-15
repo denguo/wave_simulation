@@ -77,8 +77,8 @@ Renderer.create = function( scene, canvas ) {
 	  Renderer._water = new THREE.Water(this._renderer, this._camera, this._scene, {
 			textureWidth: 256,
 			textureHeight: 256,
-			waterNormals: waterNormals,
-			alpha: 	0.9,
+			// waterNormals: waterNormals,
+			alpha: 	0.8,
 			sunDirection: scene._dir_light.position.normalize(),
 			sunColor: 0xffffff,
 			waterColor: 0x0077be,
