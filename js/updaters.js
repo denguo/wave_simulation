@@ -130,7 +130,45 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
           if (w.alive === 0) continue; // dead particle
           // alert("old: " + JSON.stringify(w.pos));
           w.pos.add(w.vel.clone().multiplyScalar(delta_t));
-          
+
+          var neighbor = getWaveParticle(w.neighbor,wave_particles);
+          w.disp = w.pos.distanceTo(neighbor.pos);
+
+          //if (j == 10 || j == 11) {
+          //    console.log(w.disp);
+          //}
+
+          if (w.disp > 5*radius) {
+            //console.log("subdivide");
+            // subdivide into 3 with 1/3 amp, 1/3 disp angle
+
+             // "generate" a new particle
+            
+            //console.log("n_wave_particles: ", n);
+            var n = n_wave_particles.array[0];
+            var w_left = {
+                alive: 1,
+                pos: w.pos,
+                amp: w.amp / 2.0,
+                vel: new THREE.Vector2(-0.05, -0.1),
+                disp: w.disp / 2.0,
+                neighbor: n+2
+            }
+            setWaveParticle(n+1, wave_particles, w_left);
+            n_wave_particles.array[0] += 1;
+
+            var w_right = {
+                alive: 1,
+                pos: w.pos,
+                amp: w.amp / 2.0,
+                vel: new THREE.Vector2(0.05, -0.1),
+                disp: w.disp / 2.0,
+                neighbor: n+1
+            }
+            setWaveParticle(n+2, wave_particles, w_right);
+            n_wave_particles.array[0] += 1;
+          }
+
           // TODO also might want some kind of amplitude attenuation
 
           // Boundary Handling:

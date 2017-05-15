@@ -228,10 +228,12 @@ function Emitter ( opts ) {
           if (i == 10)  {
             w.alive = 1;
             w.vel = new THREE.Vector2(-0.05, -0.1); // This will make it roll from one side to the other
+            w.neighbor = 11;
           }
           else if (i == 11) {
             w.alive = 1;
             w.vel = new THREE.Vector2(0.05, -0.1); // This will make it roll from one side to the other
+            w.neighbor = 10;
           }
           else {
             w.alive = 0;
@@ -241,10 +243,10 @@ function Emitter ( opts ) {
           // Just init them in the same position as the surface particles
           w.pos = new THREE.Vector2( 100.0 - (i % this._width) * 10, 100.0 - (i / this._height) * 10 );
           w.amp = 10.0; // amplitude
-          w.disp = 0;
-          w.neighbor = i;
+          w.disp = 40;
+          w.neighbor = -1;
           
-          setWaveParticle(i-10, wave_particles_attribute, w);
+          setWaveParticle(i, wave_particles_attribute, w);
         }
 
         console.log("inited wave particles");

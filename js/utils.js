@@ -10,24 +10,24 @@ function getLength( attrib ) {
 // wave has alive, (x,y) pos, amplitude, (x,y) vel (5 components)
 function getWaveParticle( i, attrib ) {
   return {
-    alive: attrib.array[6*i],
-    pos: new THREE.Vector2(attrib.array[6*i + 1], attrib.array[6*i + 2]),
-    amp: attrib.array[6*i + 3],
-    vel: new THREE.Vector2(attrib.array[6*i + 4], attrib.array[6*i + 5]),
-    disp: attrib.array[6*i + 6],
-    neighbor: attrib.array[6*i + 7]
+    alive: attrib.array[8*i],
+    pos: new THREE.Vector2(attrib.array[8*i + 1], attrib.array[8*i + 2]),
+    amp: attrib.array[8*i + 3],
+    vel: new THREE.Vector2(attrib.array[8*i + 4], attrib.array[8*i + 5]),
+    disp: attrib.array[8*i + 6],
+    neighbor: attrib.array[8*i + 7]
   }
 }
 
 function setWaveParticle(i, attrib, val) {
-  attrib.array[6*i] = val.alive;
-  attrib.array[6*i + 1] = val.pos.x;
-  attrib.array[6*i + 2] = val.pos.y;
-  attrib.array[6*i + 3] = val.amp;
-  attrib.array[6*i + 4] = val.vel.x;
-  attrib.array[6*i + 5] = val.vel.y;
-  attrib.array[6*i + 6] = val.disp;
-  attrib.array[6*i + 7] = val.neighbor;
+  attrib.array[8*i] = val.alive;
+  attrib.array[8*i + 1] = val.pos.x;
+  attrib.array[8*i + 2] = val.pos.y;
+  attrib.array[8*i + 3] = val.amp;
+  attrib.array[8*i + 4] = val.vel.x;
+  attrib.array[8*i + 5] = val.vel.y;
+  attrib.array[8*i + 6] = val.disp;
+  attrib.array[8*i + 7] = val.neighbor;
 }
 
 function getElement ( i, attrib ) {
