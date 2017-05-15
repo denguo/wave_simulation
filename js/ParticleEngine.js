@@ -229,7 +229,7 @@ function Emitter ( opts ) {
           // Just init them in the same position as the surface particles
           w.alive = 0;
           w.pos = new THREE.Vector2( 100.0 - (i % this._width) * 10, 100.0 - (i / this._height) * 10 );
-          w.amp = 10.0; // amplitude
+          w.amp = 30.0; // amplitude
           w.vel = new THREE.Vector2(0.0, -0.1); // This will make it roll from one side to the other
           w.disp = 0.0;
           w.neighbor = -1;

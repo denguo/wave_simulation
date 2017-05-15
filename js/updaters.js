@@ -179,45 +179,47 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
 
         // subdivision and particle generation
         var n = n_wave_particles.array[0];
-        var n_original = new Number(n);
-        //console.log(n_original);
-        for ( var j = 0; j < n_original; j++) {
-            n = n_wave_particles.array[0];
+        if (n < 399) {
+            var n_original = new Number(n);
             //console.log(n_original);
-            var w = getWaveParticle(j, wave_particles);
-            var neighbor = getWaveParticle(w.neighbor, wave_particles);
+            for ( var j = 0; j < n_original; j++) {
+                n = n_wave_particles.array[0];
+                //console.log(n_original);
+                var w = getWaveParticle(j, wave_particles);
+                var neighbor = getWaveParticle(w.neighbor, wave_particles);
 
-            var w_disp = w.pos.distanceTo(neighbor.pos);
+                var w_disp = w.pos.distanceTo(neighbor.pos);
 
-            if (w_disp > radius) {
-                w.amp /= 2;
-                w.neighbor = n;
-                if (w.vel.x >= 0) {
-                    w.vel = new THREE.Vector2(w.vel.x+.0125, w.vel.y);
-                }
-                else {
-                    w.vel = new THREE.Vector2(w.vel.x-0.0125, w.vel.y);
-                }
-                setWaveParticle(j, wave_particles, w);
+                if (w_disp > radius) {
+                    w.amp /= 2;
+                    w.neighbor = n;
+                    if (w.vel.x >= 0) {
+                        w.vel = new THREE.Vector2(w.vel.x+.0125, w.vel.y);
+                    }
+                    else {
+                        w.vel = new THREE.Vector2(w.vel.x-0.0125, w.vel.y);
+                    }
+                    setWaveParticle(j, wave_particles, w);
 
-                var vel_new;
-                if (w.vel.x >= 0) {
-                    vel_new = new THREE.Vector2(-w.vel.x-0.0125, w.vel.y);
-                }
-                else {
-                    vel_new = new THREE.Vector2(-w.vel.x+0.0125, w.vel.y);
-                }
+                    var vel_new;
+                    if (w.vel.x >= 0) {
+                        vel_new = new THREE.Vector2(-w.vel.x-0.0125, w.vel.y);
+                    }
+                    else {
+                        vel_new = new THREE.Vector2(-w.vel.x+0.0125, w.vel.y);
+                    }
 
-                var w_new = {
-                    alive: 1,
-                    pos: w.pos,
-                    amp: w.amp,
-                    vel: vel_new,
-                    disp: w.disp,
-                    neighbor: j
+                    var w_new = {
+                        alive: 1,
+                        pos: w.pos,
+                        amp: w.amp,
+                        vel: vel_new,
+                        disp: w.disp,
+                        neighbor: j
+                    }
+                    setWaveParticle(n, wave_particles, w_new);
+                    n_wave_particles.array[0] += 1;
                 }
-                setWaveParticle(n, wave_particles, w_new);
-                n_wave_particles.array[0] += 1;
             }
         }
 
