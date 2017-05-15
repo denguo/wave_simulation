@@ -225,29 +225,33 @@ function Emitter ( opts ) {
         // INTIIALIZE WAVE PARTICLE ATTRIBUTES
         for (var i = 0; i < getLength(wave_particles_attribute); i++) {
           var w = getWaveParticle(i, wave_particles_attribute);
-          if (i == 10)  {
-            w.alive = 1;
-            w.vel = new THREE.Vector2(-0.05, -0.1); // This will make it roll from one side to the other
-            w.neighbor = 11;
-          }
-          else if (i == 11) {
-            w.alive = 1;
-            w.vel = new THREE.Vector2(0.05, -0.1); // This will make it roll from one side to the other
-            w.neighbor = 10;
-          }
-          else {
-            w.alive = 0;
-            w.vel = new THREE.Vector2(0.0, -0.1); // This will make it roll from one side to the other
-            w.neighbor = -1;
-          }
             
           // Just init them in the same position as the surface particles
+          w.alive = 0;
           w.pos = new THREE.Vector2( 100.0 - (i % this._width) * 10, 100.0 - (i / this._height) * 10 );
           w.amp = 10.0; // amplitude
-          w.disp = 40;
+          w.vel = new THREE.Vector2(0.0, -0.1); // This will make it roll from one side to the other
+          w.disp = 0.0;
+          w.neighbor = -1;
           
           setWaveParticle(i, wave_particles_attribute, w);
         }
+
+        // initialize two particles - position 10 and 11
+        var w_0 = getWaveParticle(0, wave_particles_attribute);
+        w_0.alive = 1;
+        w_0.pos = new THREE.Vector2( 100.0 - (10 % this._width) * 10, 100.0 - (10 / this._height) * 10 );
+        w_0.vel = (-0.05, -0.1);
+        w_0.neighbor = 1;
+        setWaveParticle(0, wave_particles_attribute, w_0);
+
+        var w_1 = getWaveParticle(1, wave_particles_attribute);
+        w_1.alive = 1;
+        w_1.pos = new THREE.Vector2( 100.0 - (11 % this._width) * 10, 100.0 - (11 / this._height) * 10 );
+        w_1.vel = (0.05, -0.1);
+        w_1.neighbor = 0;
+        setWaveParticle(1, wave_particles_attribute, w_1);
+
 
         console.log("inited wave particles");
         this._particles.addAttribute( 'wave_particles', wave_particles_attribute);
