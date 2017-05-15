@@ -72,6 +72,8 @@ Renderer.create = function( scene, canvas ) {
 		waterNormals.wrapS = waterNormals.wrapT = THREE.RepeatWrapping;
 
 		// Create the water effect
+    // Borrowed from https://github.com/jbouny/ocean
+    // Using water-material.js and waternormals.jpg
 	  Renderer._water = new THREE.Water(this._renderer, this._camera, this._scene, {
 			textureWidth: 256,
 			textureHeight: 256,

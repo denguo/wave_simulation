@@ -147,6 +147,8 @@ Scene.hideAxis = function (){
     this._axis[2].visible = false;
 };
 
+// From https://github.com/jbouny/ocean
+// Using images under images
 Scene.loadSkyBox = function loadSkyBox() {
     var materialArray = [];
     materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( '../images/px.jpg' ) }));
@@ -157,7 +159,7 @@ Scene.loadSkyBox = function loadSkyBox() {
     materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( '../images/nz.jpg' ) }));
     for (var i = 0; i < 6; i++)
        materialArray[i].side = THREE.BackSide;
-    var skyboxMaterial = new THREE.MeshFaceMaterial( materialArray );
+    var oxMaterial = new THREE.MeshFaceMaterial( materialArray );
     var skyboxGeom = new THREE.CubeGeometry( 5000, 5000, 5000, 1, 1, 1 );
     var skybox = new THREE.Mesh( skyboxGeom, skyboxMaterial );
 
