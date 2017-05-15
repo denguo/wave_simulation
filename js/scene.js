@@ -19,7 +19,7 @@ var Scene = Scene || {
 Scene.create = function () {
     Scene._scene  = new THREE.Scene();
     Scene.setupLighting();
-    Scene.setupMaterials();    
+    Scene.setupMaterials();
     Scene.loadSkyBox();
 };
 
@@ -150,7 +150,7 @@ Scene.hideAxis = function (){
 Scene.loadSkyBox = function loadSkyBox() {
     var materialArray = [];
     materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( '../images/px.jpg' ) }));
-    materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( '../images/nx.png' ) }));
+    materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( '../images/nx.jpg' ) }));
     materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( '../images/py.jpg' ) }));
     materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( '../images/ny.jpg' ) }));
     materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( '../images/pz.jpg' ) }));

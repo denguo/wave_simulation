@@ -227,7 +227,6 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
           // if (n >= 399) {
           //     console.log("wave particle buffer full");
           // }
-        }
 
         setElement( i, positions, p );
     }
