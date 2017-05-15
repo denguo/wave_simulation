@@ -160,6 +160,7 @@ WaveUpdater.prototype.updatePositions = function ( particleAttributes, alive, de
 
 
           // TODO also might want some kind of amplitude attenuation
+          w.amp = w.amp * 0.9999;
 
           // Boundary Handling:
           // We get these values based on initial (x,y) positions declared in Wave position initializer
